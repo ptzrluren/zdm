@@ -20,12 +20,11 @@ jobs:
     # 安装Chrome和 ChromeDriver
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@v2
-      with:
-        install-chromedriver: true
-    - name: Show browser versions
+    - name: Show browser info
       run: |
         chrome --version
-        chromedriver --version
+        which chrome || true
+        which chromedriver || true
     # 打包项目
     - name: Build with Maven
       run: |
@@ -56,8 +55,7 @@ jobs:
       run: java -jar zdm.jar
     # 保存已推送和暂未推送的优惠信息
     - name: git add files
-      run: |
-        git add database.db
+      run: git add database.db
     - name: commit & push
       uses: actions-go/push@master
       with:
