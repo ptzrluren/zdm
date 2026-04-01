@@ -10,23 +10,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up JDK
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
     # 安装Chrome和 ChromeDriver
     - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v1
-    - name: Install ChromeDriver
+      uses: browser-actions/setup-chrome@v2
+      with:
+        install-chromedriver: true
+    - name: Show browser versions
       run: |
-        CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-        wget -O chromedriver.zip "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/linux64/chromedriver-linux64.zip"
-        unzip chromedriver.zip
-        sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
+        chrome --version
+        chromedriver --version
     # 打包项目
     - name: Build with Maven
       run: |
